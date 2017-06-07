@@ -10,8 +10,9 @@ directories = {
         '3': []
       }
 def input_command():
-    comm = input('\nВведите команду:\n p - people (вывод хозяина документа)\n\
- l - list (вывод списка всех документов)\n')
+    comm = input('\nВведите команду из списка:\n p - people (вывод хозяина документа)\n\
+ l - list (вывод списка всех документов)\n\
+ s - shell (вывод номера полки, где находится документ)\n')
     return comm
 
 def input_doc_number():
@@ -33,19 +34,20 @@ def doclist_output():
 def shelf_number():
     num = input_doc_number()
     for i, sh in enumerate(directories):
-        if num in directories[i][sh]:
-            print(sh)
-
+        if num in directories[sh]:
+            print('\n Этот документ находится на полке № {}'.format(sh))
+            
 def output_by_command():
     while True:
-        if input_command() == 'p':
+        ic = input_command()
+        if ic == 'p':
             find_people()
-        elif input_command() == 'l':
+        elif ic == 'l':
             doclist_output()
-        elif input_command() == 's':
+        elif ic == 's':
             shelf_number()
         else:
             print('Вы ввели неверную команду.')
-            exit()
+           
 
 output_by_command()
