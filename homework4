@@ -4,39 +4,109 @@ documents = [
         {"type": "insurance", "number": "10006", "name": "Аристарх Павлов"}
       ]
 
+
 directories = {
         '1': ['2207 876234', '11-2'],
         '2': ['10006'],
         '3': []
       }
+
+documents_use = documents.copy()      
+directories_use = directories.copy()
+
 def input_command():
-    comm = input('\nВведите команду из списка:\n p - people (вывод хозяина документа)\n\
+    comm = input('\nВведите команду из списка:\n\
+ p - people (вывод хозяина документа)\n\
  l - list (вывод списка всех документов)\n\
- s - shell (вывод номера полки, где находится документ)\n')
+ s - shell (вывод номера полки, где находится документ)\n\
+ a - add (добавление нового документа в каталог)\n\
+ d - delete (удалить документ из хранилища)\n\
+ m - move (переместить документ на другую полку)\n\
+ e - exit (закрыть программу)\n')
     return comm
 
 def input_doc_number():
-    doc_number = input('Введите номер документа:')
+    doc_number = input('Введите номер документа:\n')
     return doc_number
+
+def input_doc_type():
+    doc_type = input('Укажите тип документа:\n')
+    return doc_type
+    
+def input_owner_name():
+    owner_name = input('Укажите имя владельца документа в формате "ФИ":\n')
+    return owner_name    
+    
+def input_shelf_num():
+    shelf_num = input('Выберите полку, на которой будет храниться документ (введите номер от 1 до 3):\n')
+    return shelf_num  
+
+def confirm(conf ='нет'):
+    conf = input()
+    return conf
 
 def find_people():
     num = input_doc_number()
-    for i, doc in enumerate(documents):
-        if documents[i]['number'] == num:
-            print('\nХозяином документа {} является {}\n'.format(documents[i]['number'], documents[i]['name']))
+    for i, doc in enumerate(documents_use):
+        if documents_use[i]['number'] == num:
+            print('\nХозяином документа № {} является {}\n'.format(documents_use[i]['number'], documents_use[i]['name']))
 
 def doclist_output():
-    for i, doc in enumerate(documents):
-        print('{} "{}" "{}"'.format(documents[i]['type'],\
-                                    documents[i]['number'],\
-                                    documents[i]['name']))
+    for i, doc in enumerate(documents_use):
+        print('{} "{}" "{}"'.format(documents_use[i]['type'],\
+                                    documents_use[i]['number'],\
+                                    documents_use[i]['name']))
 
 def shelf_number():
     num = input_doc_number()
-    for i, sh in enumerate(directories):
-        if num in directories[sh]:
+    for i, sh in enumerate(directories_use):
+        if num in directories_use[sh]:
             print('\n Этот документ находится на полке № {}'.format(sh))
             
+def add_doc_info():
+    doc_type = input_doc_type()
+    num = input_doc_number()
+    name = input_owner_name()
+    shelf = input_shelf_num()
+    l_dir = len(directories) 
+    documents_use.append({"type": doc_type, "number": num, "name": name})
+    while shelf not in directories_use:
+      print('\nВы указали несуществующую полку, пожалуйста, укажите номер в интервале от 1 до 3\n')
+      shelf = input_shelf_num()
+    else:
+      for i, sh in enumerate(directories_use):
+        if shelf == sh:
+          directories_use[shelf].append(num)
+    print('Обновленный список документов:\n {}\n Новый документ теперь лежит на полке №{} {}'.format(documents_use, shelf, directories_use))
+    return documents_use, directories_use
+
+def del_doc():
+    num = input_doc_number()
+    for i, doc in enumerate(documents_use):
+      for j, sh in enumerate(directories_use):
+        if documents_use[i]['number'] == num and num in directories_use[sh]:
+          ind = directories_use[sh].index(num) #при условии, что все номера документов уникальны
+          print('Вы действительно хотите удалить документ с номером {} ? (да/нет)'.format(documents_use[i]['number']))
+          conf = confirm()
+          if conf == 'да':
+            documents_use.pop(i)
+            directories_use[sh].pop(ind)
+            print('Документ с номером {} был удален.\n'.format(documents_use[i]['number']), documents_use, directories_use)
+          else:
+             print('Документ не был удален.')
+
+def move_doc():
+    num = input_doc_number()
+    shelf = input_shelf_num()
+    for i, sh in enumerate(directories_use):
+      if num in directories_use[sh]:
+        ind = directories_use[sh].index(num)
+        prev_sh = sh
+        directories_use[sh].pop(ind)
+      if shelf == sh:
+        directories_use[shelf].append(num)
+        print('Документ с номером "{}" был перемещен c полки № {} на полку №{}'.format(num, prev_sh, shelf))
+          
 def output_by_command():
     while True:
         ic = input_command()
@@ -46,8 +116,17 @@ def output_by_command():
             doclist_output()
         elif ic == 's':
             shelf_number()
+        elif ic == 'a':
+            add_doc_info()
+            
+        elif ic == 'd':
+            del_doc()
+        elif ic == 'm':
+            move_doc()
+        elif ic == 'e':
+            exit()
         else:
-            print('Вы ввели неверную команду.')
+            print('Вы ввели неверную команду')
            
 
 output_by_command()
