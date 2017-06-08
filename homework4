@@ -38,7 +38,7 @@ def input_owner_name():
     return owner_name    
     
 def input_shelf_num():
-    shelf_num = input('Выберите полку, на которой будет храниться документ (введите номер от 1 до 3):\n')
+    shelf_num = input('Введите номер полки:\n')
     return shelf_num  
 
 def confirm(conf ='нет'):
@@ -106,6 +106,15 @@ def move_doc():
       if shelf == sh:
         directories_use[shelf].append(num)
         print('Документ с номером "{}" был перемещен c полки № {} на полку №{}'.format(num, prev_sh, shelf))
+
+def add_shelf():
+    shelf = input_shelf_num()
+    for i, sh in enumerate(directories_use):
+      if shelf == directories_use[sh]:
+        print('Эта полка уже существует')
+      else:
+        directories_use[shelf] = []
+        print(directories_use)
           
 def output_by_command():
     while True:
@@ -123,6 +132,8 @@ def output_by_command():
             del_doc()
         elif ic == 'm':
             move_doc()
+        elif ic == 'aa':
+            add_shelf()
         elif ic == 'e':
             exit()
         else:
