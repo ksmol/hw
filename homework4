@@ -82,40 +82,46 @@ def add_doc_info():
 
 def del_doc():
     num = input_doc_number()
-    for i, doc in enumerate(documents_use):
-      for j, sh in enumerate(directories_use):
-        if documents_use[i]['number'] == num and num in directories_use[sh]:
-          ind = directories_use[sh].index(num) #при условии, что все номера документов уникальны
+    for i, n in enumerate(documents_use):
+      for j, sh in directories_use.items():
+        if documents_use[i]['number'] == num and num in directories_use[j]:
+          ind = directories_use[j].index(num) #при условии, что все номера документов уникальны
           print('Вы действительно хотите удалить документ с номером {} ? (да/нет)'.format(documents_use[i]['number']))
           conf = confirm()
           if conf == 'да':
             documents_use.pop(i)
-            directories_use[sh].pop(ind)
-            print('Документ с номером {} был удален.\n'.format(documents_use[i]['number']), documents_use, directories_use)
+            directories_use[j].pop(ind)
+            print('Документ с номером {} был удален.\n Список документов теперь выглядит так:\n\n{}\n\n На полках лежат следующие документы: \n\n{}\n'.format(num, documents_use, directories_use))
           else:
-             print('Документ не был удален.')
+            print('Документ не был удален.')
 
 def move_doc():
     num = input_doc_number()
     shelf = input_shelf_num()
-    for i, sh in enumerate(directories_use):
-      if num in directories_use[sh]:
-        ind = directories_use[sh].index(num)
-        prev_sh = sh
-        directories_use[sh].pop(ind)
-      if shelf == sh:
+    for i, sh in directories_use.items():
+      if num in directories_use[i]:
+        ind = directories_use[i].index(num)
+        prev_sh = i
+        directories_use[i].pop(ind)
+      if shelf == i:
         directories_use[shelf].append(num)
-        print('Документ с номером "{}" был перемещен c полки № {} на полку №{}'.format(num, prev_sh, shelf))
-
+    print('\nДокумент с номером {} перемещен с полки {} на полку {}\n\nДокументы на полке теперь расположены следующим образом:\n{} '.format(num, prev_sh, shelf, directories_use))  
+    
 def add_shelf():
     shelf = input_shelf_num()
-    for i, sh in enumerate(directories_use):
-      if shelf == directories_use[sh]:
-        print('Эта полка уже существует')
+    ind = ''
+    for nu, sh in directories_use.items():
+      if shelf == nu:
+        break
       else:
-        directories_use[shelf] = []
-        print(directories_use)
-          
+        ind = nu
+        print(type(nu), nu)
+    if ind == '':
+      print('Эта полка уже существует')
+    else:
+      directories_use[ind] = []
+      print(directories_use)
+        
 def output_by_command():
     while True:
         ic = input_command()
@@ -127,12 +133,11 @@ def output_by_command():
             shelf_number()
         elif ic == 'a':
             add_doc_info()
-            
         elif ic == 'd':
             del_doc()
         elif ic == 'm':
             move_doc()
-        elif ic == 'aa':
+        elif ic == 'as':
             add_shelf()
         elif ic == 'e':
             exit()
