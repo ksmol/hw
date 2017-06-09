@@ -22,6 +22,7 @@ def input_command():
  a - add (добавление нового документа в каталог)\n\
  d - delete (удалить документ из хранилища)\n\
  m - move (переместить документ на другую полку)\n\
+ as - add shelf (добавить новую полку в хранилище документов)\n\
  e - exit (закрыть программу)\n')
     return comm
 
@@ -91,7 +92,8 @@ def del_doc():
           if conf == 'да':
             documents_use.pop(i)
             directories_use[j].pop(ind)
-            print('Документ с номером {} был удален.\n Список документов теперь выглядит так:\n\n{}\n\n На полках лежат следующие документы: \n\n{}\n'.format(num, documents_use, directories_use))
+            print('Документ с номером {} был удален.\n Список документов теперь выглядит так:\n\n{}\n\n\
+            На полках лежат следующие документы: \n\n{}\n'.format(num, documents_use, directories_use))
           else:
             print('Документ не был удален.')
 
@@ -105,22 +107,20 @@ def move_doc():
         directories_use[i].pop(ind)
       if shelf == i:
         directories_use[shelf].append(num)
-    print('\nДокумент с номером {} перемещен с полки {} на полку {}\n\nДокументы на полке теперь расположены следующим образом:\n{} '.format(num, prev_sh, shelf, directories_use))  
+    print('\nДокумент с номером {} перемещен с полки {} на полку {}\n\nДокументы на полке теперь\
+    расположены следующим образом:\n{} '.format(num, prev_sh, shelf, directories_use))  
     
 def add_shelf():
-    shelf = input_shelf_num()
-    ind = ''
-    for nu, sh in directories_use.items():
-      if shelf == nu:
-        break
+    id = False
+    while id == False:
+      shelf = input_shelf_num()
+      if shelf in directories_use:
+        print('\nТакая полка уже существует, попробуйте еще раз\n')
       else:
-        ind = nu
-        print(type(nu), nu)
-    if ind == '':
-      print('Эта полка уже существует')
-    else:
-      directories_use[ind] = []
-      print(directories_use)
+        id = True  
+        for nu, sh in directories.items():
+          directories_use[shelf] = []
+        print('Полка с номером {} добавлена, хранилище документов теперь выглядит так:\n{}\n'.format(shelf, directories_use))
         
 def output_by_command():
     while True:
@@ -143,6 +143,6 @@ def output_by_command():
             exit()
         else:
             print('Вы ввели неверную команду')
-           
-
+    return directories_use
+  
 output_by_command()
