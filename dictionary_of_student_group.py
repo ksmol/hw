@@ -16,15 +16,12 @@ student_directory = [
 ]
 
 def avg_scores_for_group(input_directory):
-  number_of_students = 0
-  summ_hw_score = 0
+  number_of_students = len(input_directory)
   summ_exam_score = 0
   for student_info in input_directory:
-    number_of_students += 1
     number_of_hw = len(student_info['hw_score'])
     summ_exam_score += student_info['exam_score']
-    for scores in student_info['hw_score']:
-      summ_hw_score += scores
+    summ_hw_score = sum(student_info['hw_score'])
   if number_of_students != 0:
     avg_hw_score = round(summ_hw_score / number_of_hw / number_of_students, 1)
     avg_exam_score = round(summ_exam_score / number_of_students, 1)
@@ -34,7 +31,6 @@ def avg_scores_for_group(input_directory):
 def avg_scores_by_attributes():
   men_student_list = []
   women_student_list = []
-  unknown_sex_list = []
   student_with_exp_list = []
   student_without_exp_list = []
   dict_of_avg_by_gender = {}
@@ -64,13 +60,16 @@ def avg_scores_by_attributes():
 # Лучшие студенты: S... с интегральной оценкой Z
 # если студентов несколько, где S - имя/имена студентов, Z - вычисляемое значение
 
-# summ_hw_score = 0
-# for student_info in student_directory:
-#   number_of_hw = len(student_info['hw_score'])
-#   for scores in student_info['hw_score']:
-#     dict_of_student_avg_score = dict('name')
-    
-# print(dict_of_student_avg_score)
+summ_hw_score = 0
+
+for student_info in student_directory:
+  number_of_hw = len(student_info['hw_score'])
+  summ_of_hw_score = sum(student_info['hw_score'])
+  print(summ_of_hw_score)
+
+
+print()
+
 print('Средняя оценка за домашние задания по группе:{}\n\
 Средняя оценка за экзамен:{}\n'.format(*avg_scores_for_group(student_directory)))
 
