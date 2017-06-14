@@ -6,14 +6,14 @@
 #Соколов Юрий муж. False 4 3 3 3 4 7
 
 student_directory = [
-                      {'name' : 'соколов юрий', 'sex' : 'муж.', 'programming_exp' : True, 'hw_score' : [5, 5, 5, 5, 4], 'exam_score' : 10},
-                      {'name' : 'чернова алла', 'sex' : 'жен.', 'programming_exp' : True, 'hw_score' : [4, 4, 3, 3, 3], 'exam_score' : 6},
-                      {'name' : 'миличкина ирина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [4, 4, 3, 3, 4], 'exam_score' : 7},
-                      {'name' : 'харитонов игорь', 'sex' : 'муж.', 'programming_exp' : True, 'hw_score' : [4, 5, 4, 3, 4], 'exam_score' : 8},
-                      {'name' : 'соколов юрий', 'sex' : 'муж.', 'programming_exp' : False, 'hw_score' : [5, 5, 4, 5, 5], 'exam_score' : 10},
-                      {'name' : 'измайлова карина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [5, 4, 5, 5, 5], 'exam_score' : 10}
-                      
-]
+                     {'name' : 'соколов юрий', 'sex' : 'муж.', 'programming_exp' : True, 'hw_score' : [5, 5, 5, 5, 4], 'exam_score' : 10},
+                     {'name' : 'чернова алла', 'sex' : 'жен.', 'programming_exp' : True, 'hw_score' : [4, 4, 3, 3, 3], 'exam_score' : 6},
+                     {'name' : 'миличкина ирина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [4, 4, 3, 3, 4], 'exam_score' : 7},
+                     {'name' : 'харитонов игорь', 'sex' : 'муж.', 'programming_exp' : True, 'hw_score' : [4, 5, 4, 3, 4], 'exam_score' : 8},
+                     {'name' : 'соколов юрий', 'sex' : 'муж.', 'programming_exp' : False, 'hw_score' : [5, 5, 4, 5, 5], 'exam_score' : 10},
+                     {'name' : 'измайлова карина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [5, 4, 5, 5, 5], 'exam_score' : 10}
+                     ]
+
 def input_attribute():
   attribute = input('Выберите и введите атрибут из списка (пол, опыт, чтобы вывести среднее по всей группе просто нажмите Enter, для выхода введите Q):').lower()
   return attribute
