@@ -100,14 +100,15 @@ def del_doc():
 def move_doc():
     num = input_doc_number()
     shelf = input_shelf_num()
+    prev_sh = ''
     for i, sh in directories_use.items():
-      if num in directories_use[i]:
-        ind = directories_use[i].index(num)
-        prev_sh = i
-        directories_use[i].pop(ind)
-      if shelf == i:
-        directories_use[shelf].append(num)
-    print('\nДокумент с номером {} перемещен с полки {} на полку {}\n\nДокументы на полке теперь\
+        if num in directories_use[i]:
+            ind = directories_use[i].index(num)
+            prev_sh = i
+            directories_use[i].pop(ind)
+        if shelf == i:
+            directories_use[shelf].append(num)
+            print('\nДокумент с номером {} перемещен с полки {} на полку {}\n\nДокументы на полке теперь\
     расположены следующим образом:\n{} '.format(num, prev_sh, shelf, directories_use))  
     
 def add_shelf():
