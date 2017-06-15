@@ -11,14 +11,14 @@ student_directory = [
                      {'name' : 'миличкина ирина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [4, 4, 3, 3, 4], 'exam_score' : 7},
                      {'name' : 'харитонов игорь', 'sex' : 'муж.', 'programming_exp' : True, 'hw_score' : [4, 5, 4, 3, 4], 'exam_score' : 8},
                      {'name' : 'соколов юрий', 'sex' : 'муж.', 'programming_exp' : False, 'hw_score' : [5, 5, 4, 5, 5], 'exam_score' : 10},
-                     {'name' : 'измайлова карина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [5, 4, 5, 5, 5], 'exam_score' : 10}
+                     {'name' : 'измайлова карина', 'sex' : 'жен.', 'programming_exp' : False, 'hw_score' : [5, 5, 4, 5, 5], 'exam_score' : 10}
                      ]
 
 def input_attribute():
   attribute = input('\nВыберите и введите атрибут из списка:\n\
 all - вывести средние показатели успеваемости всей группы\n\
-s - вывести средние показатели успеваемости по гендерному признаку;\n\
-ex - вывести средние показатели успеваемости по опыту в программировании;\n\
+sex - вывести средние показатели успеваемости по гендерному признаку;\n\
+exp - вывести средние показатели успеваемости по опыту в программировании;\n\
 best - вывести студент(-ов)а с лучшей успеваемостью\n\
 q - выйти из программы\n').lower()
   return attribute
@@ -53,7 +53,7 @@ def split_student_directory_by_attribut(attribute):
   student_with_exp_list = []
   student_without_exp_list = []
   dict_of_avg_by_attributes = {}
-  if attribute == 's':
+  if attribute == 'sex':
     for student_info in student_directory:
       if student_info['sex'] == 'муж.':
         men_student_list.append(student_info)
@@ -61,7 +61,7 @@ def split_student_directory_by_attribut(attribute):
         women_student_list.append(student_info)
     dict_of_avg_by_attributes['men'] = avg_scores_for_group(men_student_list)
     dict_of_avg_by_attributes['women'] = avg_scores_for_group(women_student_list)
-  elif attribute == 'ex':
+  elif attribute == 'exp':
     for student_info in student_directory:
       if student_info['programming_exp'] == True:
         student_with_exp_list.append(student_info)
@@ -96,21 +96,21 @@ def find_max_elem_at_list(input_list):
 
 def output_best_students_names(input_directory):
   combine_students_scores = output_combine_scores_for_students(input_directory)
-  the_best_students = []
-  the_best_students_info = {}
   max_score = find_max_elem_at_list(combine_students_scores[1])
+  the_best_students = []
+  the_best_students_with_score = [max_score]
   for score in enumerate(combine_students_scores[1]):
     if score[1] == max_score:
-      the_best_students.append(combine_students_scores[0][score[0]])
-  the_best_students_info[max_score] = the_best_students
-  return the_best_students_info
+      the_best_students.append(combine_students_scores[0][score[0]].upper())
+  the_best_students_with_score.append(the_best_students)
+  return the_best_students_with_score
 
 
 def output_avg_results():
   while True:
     attribute = input_attribute()
     dict_of_avg_by_attributes = split_student_directory_by_attribut(attribute)
-    if attribute == 's':
+    if attribute == 'sex':
       print('\nСредняя оценка за домашние задания у мужчин: {}\n\
 Средняя оценка за экзамен у мужчин: {}\n\
 Средняя оценка за домашние задания у женщин: {}\n\
@@ -118,7 +118,7 @@ def output_avg_results():
                                                       dict_of_avg_by_attributes['men'][1],\
                                                       dict_of_avg_by_attributes['women'][0],\
                                                       dict_of_avg_by_attributes['women'][1]))
-    elif attribute == 'ex':
+    elif attribute == 'exp':
       print('\nСредняя оценка за домашние задания у студентов с опытом: {}\n\
 Средняя оценка за экзамен у студентов с опытом: {}\n\
 Средняя оценка за домашние задания у студентов без опыта: {}\n\
@@ -129,10 +129,23 @@ def output_avg_results():
     elif attribute == 'all':
       print('\nСредняя оценка за домашние задания по группе:{}\n\
 Средняя оценка за экзамен:{}\n'.format(*avg_scores_for_group(student_directory)))
+
     elif attribute == 'best':
-      the_best_students_info = output_best_students_names(student_directory)
-      if len(the_best_students_info[]) > 1:
-        print(the_best_students_info)
+      the_best_students = output_best_students_names(student_directory)
+      if len(the_best_students[1]) > 1:
+        print('Лучшие студенты', sep = '', end = ': ')
+        namesake_filter = the_best_students[1][0]
+        namesake_list = []
+        for element in the_best_students[1]:
+          if element == namesake_filter:
+            namesake_list.append(element)
+          print('{},'.format(element), end = ' ')
+        print('с интегральной оценкой {}'.format(the_best_students[0]))
+        if len(namesake_list) > 1:
+          print('В вашей группе есть тезки с одинаковыми именем и фамилией.')
+      else:
+        print('Лучший студент: {} с интегральной оценкой {}'.format(the_best_students[1][0], the_best_students[0]))
+
     elif attribute == 'q':
       exit()
 
