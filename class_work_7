@@ -1,0 +1,13 @@
+# f = open('1.txt', encoding = 'utf-8')
+# print(f.read())
+# print(f.readline())
+# print(f.readline())
+#
+# f.close()
+#-----------------------------------------
+
+# with open('1.txt', encoding='utf-8') as f:
+#     # print(f.readlines())
+#     for line in f:
+#         print(line.strip())
+

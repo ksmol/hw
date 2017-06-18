@@ -133,13 +133,13 @@ def output_avg_results():
     elif attribute == 'best':
       the_best_students = output_best_students_names(student_directory)
       if len(the_best_students[1]) > 1:
-        print('Лучшие студенты:')
+        print('Лучшие студенты', sep = '', end = ': ')
         namesake_filter = the_best_students[1][0]
         namesake_list = []
         for element in the_best_students[1]:
           if element == namesake_filter:
             namesake_list.append(element)
-          print('{}'.format(element))
+          print('{},'.format(element), end = ' ')
         print('с интегральной оценкой {}'.format(the_best_students[0]))
         if len(namesake_list) > 1:
           print('В вашей группе есть тезки с одинаковыми именем и фамилией.')
