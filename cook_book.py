@@ -18,9 +18,11 @@ with open('recipes.txt', 'r', encoding='utf-8') as cb:
             ingredients['ingridient_name'] = ingred_list[0]
             ingredients['quontity'] = ingred_list[1]
             ingredients['measure'] = ingred_list[2]
+            # print(ingredients)
+            # print(ingredients_for_dish)
             ingredients_for_dish.append(ingredients)
-        cook_book[dish_name] = dish_ingredients
-        print(cook_book)
+        print(ingredients_for_dish)
+
         cb.readline()
 
 
