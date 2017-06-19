@@ -22,7 +22,7 @@ def read_cook_book_from_file():
     return cook_book
 
 def get_shop_list_by_dishes(dishes, person_count):
-    cook_book = read_recipes_from_file()
+    cook_book = read_cook_book_from_file()
     shop_list = {}
     for dish in dishes:
         for ingredient in cook_book[dish]:
