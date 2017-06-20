@@ -1,0 +1,17 @@
+{
+  "летний салат" : [
+                    {"ingridient_name" : "огурцы", "quontity" : 100, "measure" : "гр"},
+                    {"ingridient_name" : "помидоры", "quontity" : 100, "measure" : "гр"},
+                    {"ingridient_name" : "майонез", "quontity" : 20, "measure" : "гр"}
+                    ],
+  "глазунья" : [
+                {"ingridient_name" : "яйца", "quontity" : 2, "measure" : "шт"},
+                {"ingridient_name" : "лук", "quontity" : 10, "measure" : "гр"},
+                {"ingridient_name" : "помидоры", "quontity" : 50, "measure" : "гр"}
+                ],
+  "бутерброд" : [
+                  {"ingridient_name" : "хлеб", "quontity" : 200, "measure" : "гр"},
+                  {"ingridient_name" : "колбаса", "quontity" : 100, "measure" : "гр"},
+                  {"ingridient_name" : "сыр", "quontity" : 100, "measure" : "гр"}
+                  ]
+}
