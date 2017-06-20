@@ -4,7 +4,7 @@ def read_cook_book_from_file():
     import  json
     with open('cook_book.json', 'r', encoding='utf-8') as cb:
      cook_book = json.load(cb)
-    return cook_book
+    return cook_лbook
 
 
 def get_shop_list_by_dishes(dishes, person_count):
