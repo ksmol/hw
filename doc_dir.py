@@ -54,16 +54,16 @@ def find_people():
             print('\nХозяином документа № {} является {}\n'.format(documents_use[i]['number'], documents_use[i]['name']))
 
 def doclist_output():
-    for i, doc in enumerate(documents_use):
-        print('{} "{}" "{}"'.format(documents_use[i]['type'],\
-                                    documents_use[i]['number'],\
-                                    documents_use[i]['name']))
+    for document in documents_use:
+        print('{} "{}" "{}"'.format(document['type'],\
+                                    document['number'],\
+                                    document['name']))
 
 def shelf_number():
     num = input_doc_number()
-    for i, sh in enumerate(directories_use):
-        if num in directories_use[sh]:
-            print('\n Этот документ находится на полке № {}'.format(sh))
+    for shelf in directories_use:
+        if num in directories_use[shelf]:
+            print('\n Этот документ находится на полке № {}'.format(shelf))
             
 def add_doc_info():
     doc_type = input_doc_type()
