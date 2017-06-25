@@ -7,6 +7,10 @@ def input_file_name():
     print(file)
     return file
 
+def identify_and_decode_file_encoding(file_name)
+    file_name = input_file_name()
+    import chardet
+
 def read_cook_book_from_file():
     from pprint import pprint
     import  json
