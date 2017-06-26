@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Python_course/PY1_Lesson_2.3/.idea/PY1_Lesson_2.3.iml" filepath="$PROJECT_DIR$/../Python_course/PY1_Lesson_2.3/.idea/PY1_Lesson_2.3.iml" />
+      <module fileurl="file://C:\Users\Офис\Git_remotes\Python_course\PY1_Lesson_2.3\.idea\PY1_Lesson_2.3.iml" filepath="C:\Users\Офис\Git_remotes\Python_course\PY1_Lesson_2.3\.idea\PY1_Lesson_2.3.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hw.iml" filepath="$PROJECT_DIR$/.idea/hw.iml" />
     </modules>
   </component>
