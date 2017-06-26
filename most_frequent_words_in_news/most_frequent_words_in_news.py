@@ -1,10 +1,10 @@
 #-*- coding: utf-8 -*-
 
 def input_file_name():
-    file_name = input('Введите имя файла в формате.json:\n')
+    file_name = input('Введите имя файла(без расширения):\n')
     file_extention = '.json'
     file = file_name + file_extention
-    print(file)
+    print('Чтение файла {} ... .'.format(file))
     return file
 
 def identify_and_decode_file_encoding(file_name):
@@ -26,10 +26,18 @@ def read_news_from_file():
 
 news_file = read_news_from_file()
 text_from_all_news = []
-for news_index in news_file['rss']['channel']['items']:
-    print(news_index)
-    # words = news_file['rss']['channel']['items'][news_num]['description'].split()
-    # text_from_all_news += words
+for news_index, item in enumerate(news_file['rss']['channel']['items']):
+    words = news_file['rss']['channel']['items'][news_index]['description'].split()
+    text_from_all_news += words
+text_from_all_news = [w.lower() for w in text_from_all_news if len(w)>=5]
+text_from_all_news.sort()
+maybe_most_frequent_word = text_from_all_news[0]
+counter = 0
+for word in text_from_all_news:
+    if word == maybe_most_frequent_word:
+        counter +=1
+print(counter)
 
-# text_from_all_news = [w.lower() for w in text_from_all_news if len(w)>=6]
-# print(text_from_all_news)
+
+
+print(text_from_all_news)
