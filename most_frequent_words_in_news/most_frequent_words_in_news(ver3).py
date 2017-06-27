@@ -32,28 +32,24 @@ def identify_ten_most_common_words(news_file):
         words_at_title = news_file['rss']['channel']['items'][index]['title'].split()
         text_from_all_news += words_at_title + words_at_description
     text_from_all_news = [w.lower() for w in text_from_all_news if len(w)>=6]
-    from collections import Counter
-    dict_repetition_words = Counter(text_from_all_news)
-    dict_of_ten_most_freq_words = {}
+    dict_repetition_words = dict.fromkeys(text_from_all_news, 0)
+    for word_key in text_from_all_news:
+        if word_key in dict_repetition_words:
+            dict_repetition_words[word_key] += 1
+    sorted_list_repet_words = sorted(dict_repetition_words.items(), key=lambda item: item[1], reverse=True)
+    list_of_ten_most_freq_words = []
     for i in range(10):
-        most_frequent_word = max(dict_repetition_words, key=lambda word: dict_repetition_words[word])
-        dict_of_ten_most_freq_words[most_frequent_word] = dict_repetition_words[most_frequent_word]
-        dict_repetition_words.pop(most_frequent_word)
-<<<<<<< HEAD
-    # number_of_occurences = dict_repetition_words[most_frequent_word]
-    print('{}{}'.format(**dict_of_most_freq_words))
-=======
-    return dict_of_ten_most_freq_words
+        list_of_ten_most_freq_words.append(sorted_list_repet_words[i])
+    return list_of_ten_most_freq_words
 
-def output_results(dict_of_resuls):
-    for file in dict_of_resuls:
+def output_results(dict_with_resuls):
+    for file in dict_with_resuls:
         print('\nВ файле {} наиболее часто встречаются следующие слова:'.format(file))
-        for word in dict_of_resuls[file]:
-            print('Cлово "{}" встречается {} раз'.format(word, dict_of_resuls[file][word]))
->>>>>>> ad6a293c4264bab43841d75b0131e317e1f6ebe1
+        for ind, item in enumerate(dict_with_resuls[file]):
+            print('{}. Cлово "{}" встречается {} раз'.format(ind+1, item[0], item[1]))
 
 def dialog_window():
-    dict_of_results = {}
+    dict_with_results = {}
     while True:
         print('Введите команду из списка:\n\
             a - add file(добавить имя файла)\n\
@@ -67,7 +63,7 @@ def dialog_window():
                 try:
                     file_name = input_file_name()
                     news_file = read_news_from_file(file_name)
-                    dict_of_results[file_name] = identify_ten_most_common_words(news_file)
+                    dict_with_results[file_name] = identify_ten_most_common_words(news_file)
                     print('Хотите прочитать еще один файл(y/n)?')
                     yn_command = input_command()
                     if yn_command == 'y':
@@ -77,7 +73,7 @@ def dialog_window():
                 except FileNotFoundError:
                     i = False
         elif command == 's':
-            output_results(dict_of_results)
+            output_results(dict_with_results)
             break
         elif command == 'q':
             exit()
