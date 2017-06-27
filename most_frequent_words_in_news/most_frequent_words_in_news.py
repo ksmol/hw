@@ -39,7 +39,7 @@ def output_most_frequent_word():
         dict_of_most_freq_words[most_frequent_word] = dict_repetition_words[most_frequent_word]
         dict_repetition_words.pop(most_frequent_word)
     # number_of_occurences = dict_repetition_words[most_frequent_word]
-    print(dict_of_most_freq_words)
+    print('{}{}'.format(**dict_of_most_freq_words))
 
 
 output_most_frequent_word()
