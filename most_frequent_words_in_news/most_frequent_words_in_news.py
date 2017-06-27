@@ -39,5 +39,3 @@ for word in text_from_all_news:
 print(counter)
 
 
-
-print(text_from_all_news)
