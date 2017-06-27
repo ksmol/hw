@@ -53,7 +53,7 @@ def dialog_window():
         print('Введите команду из списка:\n\
             a - add file(добавить имя файла)\n\
             s - show result (вывести результат и покинуть программу)\n\
-            q - quit (прекратить выполнение функции)')
+            q - quit (прекратить выполнение программы)')
         command = input_command()
         if command == 'a':
             i = True
