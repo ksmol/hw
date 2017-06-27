@@ -32,12 +32,15 @@ def identify_ten_most_common_words(news_file):
         words_at_title = news_file['rss']['channel']['items'][index]['title'].split()
         text_from_all_news += words_at_title + words_at_description
     text_from_all_news = [w.lower() for w in text_from_all_news if len(w)>=6]
-    from collections import Counter
-    dict_of_ten_most_freq_words = Counter(text_from_all_news).most_common(10)
-    
-    return dict_of_ten_most_freq_words
-
-
+    dict_repetition_words = dict.fromkeys(text_from_all_news, 0)
+    for word_key in text_from_all_news:
+        if word_key in dict_repetition_words:
+            dict_repetition_words[word_key] += 1
+    sorted_list_repet_words = sorted(dict_repetition_words.items(), key=lambda item: item[1], reverse=True)
+    list_of_ten_most_freq_words = []
+    for i in range(10):
+        list_of_ten_most_freq_words.append(sorted_list_repet_words[i])
+    return list_of_ten_most_freq_words
 
 def output_results(dict_with_resuls):
     for file in dict_with_resuls:
