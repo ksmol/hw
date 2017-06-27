@@ -1,17 +1,14 @@
 #-*- coding: utf-8 -*-
 
 def input_command():
-    command = input('Введите команду из списка:\n\
-    a - add file(добавить имя файла)\n\
-    s - show result (вывести результат и покинуть программу)\n\
-    q - quit (прекратить выполнение функции)\n')
+    command = input().lower()
     return command
 
 def input_file_name():
-    file_name = input('\nВведите имя файла(без расширения):\n').lower()
+    file_name = input().lower()
     file_extention = '.json'
     file = file_name + file_extention
-    print('Чтение файла {} ...\n'.format(file))
+    print('Чтение файла {} ...'.format(file))
     return file
 
 def identify_file_encoding(file_name):
@@ -53,11 +50,27 @@ def output_results(dict_of_resuls):
 def dialog_window():
     dict_of_results = {}
     while True:
+        print('Введите команду из списка:\n\
+            a - add file(добавить имя файла)\n\
+            s - show result (вывести результат и покинуть программу)\n\
+            q - quit (прекратить выполнение функции)')
         command = input_command()
         if command == 'a':
-            file_name = input_file_name()
-            news_file = read_news_from_file(file_name)
-            dict_of_results[file_name] = identify_ten_most_common_words(news_file)
+            i = True
+            while i:
+                print('Введите имя файла без расширения:')
+                try:
+                    file_name = input_file_name()
+                    news_file = read_news_from_file(file_name)
+                    dict_of_results[file_name] = identify_ten_most_common_words(news_file)
+                    print('Хотите прочитать еще один файл(y/n)?')
+                    yn_command = input_command()
+                    if yn_command == 'y':
+                        i = True
+                    else:
+                        i = False
+                except FileNotFoundError:
+                    i = False
         elif command == 's':
             output_results(dict_of_results)
             break
@@ -65,7 +78,6 @@ def dialog_window():
             exit()
         else:
             print('\nВы ввели неправильную команду\n')
-            True
 
 if __name__ == '__main__':
     dialog_window()
