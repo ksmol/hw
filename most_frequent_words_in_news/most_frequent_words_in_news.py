@@ -39,18 +39,14 @@ def identify_ten_most_common_words(news_file):
         most_frequent_word = max(dict_repetition_words, key=lambda word: dict_repetition_words[word])
         dict_of_ten_most_freq_words[most_frequent_word] = dict_repetition_words[most_frequent_word]
         dict_repetition_words.pop(most_frequent_word)
-<<<<<<< HEAD
-    # number_of_occurences = dict_repetition_words[most_frequent_word]
-    print('{}{}'.format(**dict_of_most_freq_words))
-=======
-    return dict_of_ten_most_freq_words
+    sorted_list_repet_words = sorted(dict_of_ten_most_freq_words.items(), key=lambda item: item[1], reverse=True)
+    return sorted_list_repet_words
 
 def output_results(dict_of_resuls):
     for file in dict_of_resuls:
         print('\nВ файле {} наиболее часто встречаются следующие слова:'.format(file))
         for word in dict_of_resuls[file]:
-            print('Cлово "{}" встречается {} раз'.format(word, dict_of_resuls[file][word]))
->>>>>>> ad6a293c4264bab43841d75b0131e317e1f6ebe1
+            print('Cлово "{}" встречается {} раз'.format(word[0], word[1]))
 
 def dialog_window():
     dict_of_results = {}
