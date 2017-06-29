@@ -6,7 +6,9 @@ def enter_data():
 
 def get_list_of_all_sql_files_at_dir():
     import os
-    list_of_all_sql_files = [files for files in os.listdir(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Migrations')) if '.sql' in files]
+    list_of_all_sql_files = [files for files in
+                             os.listdir(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Migrations'))
+                             if '.sql' in files]
     return list_of_all_sql_files
 
 def find_file_by_keyword(keyword, list_of_all_sql_files):
