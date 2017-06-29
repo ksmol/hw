@@ -1,9 +1,5 @@
 #-*- coding: utf-8 -*-
 
-def enter_data():
-    data = input()
-    return data
-
 def get_list_of_all_sql_files_at_dir():
     import os
     list_of_all_sql_files = [files for files in
@@ -29,20 +25,20 @@ def dialog_window():
         print('Введите команду из списка:\n\
             e - enter (ввод строки, по которой будет осуществлен поиск)\n\
             q - quit (прекратить выполнение программы)')
-        command = enter_data().lower()
+        command = input().lower()
         if command == 'e':
             list_of_files = get_list_of_all_sql_files_at_dir()
             i = True
             while i == True:
                 print('Введите слово для поиска:')
-                keyword = enter_data().upper()
+                keyword = input().upper()
                 results = find_file_by_keyword(keyword, list_of_files)
                 list_of_files = results[1]
                 print('\nСтрока "{}" найдена в {} следующих файлах:\n'.format(keyword, results[0]))
                 for file_name in list_of_files:
                     print(file_name)
                 print('\nВы хотите продолжить поиск в этом списке?(y/n)')
-                yn_command = enter_data()
+                yn_command = input()
                 if yn_command == 'y':
                     i = True
                 else:
@@ -51,7 +47,7 @@ def dialog_window():
         elif command == 'q':
             exit()
         else:
-            print('\nВы ввели неправильную команду\n')
+            print('\nВы ввели неправильную команду.\n')
 
 
 if __name__ == '__main__':
