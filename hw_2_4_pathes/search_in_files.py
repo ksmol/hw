@@ -1,14 +1,14 @@
 #-*- coding: utf-8 -*-
 
+import os
+
 def get_list_of_all_sql_files_at_dir():
-    import os
     list_of_all_sql_files = [files for files in
                              os.listdir(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Migrations'))
                              if '.sql' in files]
     return list_of_all_sql_files
 
 def find_file_by_keyword(keyword, list_of_all_sql_files):
-    import os
     file_counter = 0
     list_of_found_files = []
     for file_name in list_of_all_sql_files:
