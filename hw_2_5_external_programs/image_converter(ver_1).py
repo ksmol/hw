@@ -20,7 +20,7 @@ def create_new_folder_at_working_dir(folder_name):
 def convert_all_images(source_folder, name_of_output_folder):
     create_new_folder_at_working_dir(name_of_output_folder)
     list_of_image_files = get_image_list()
-    for i, image_file_name in enumerate(list_of_image_files):
+    for image_file_name in list_of_image_files:
         subprocess.check_call(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'convert ')
                 + os.path.join(os.path.abspath(os.path.dirname(__file__)), source_folder, image_file_name)
                 + ' -resize 200x '
