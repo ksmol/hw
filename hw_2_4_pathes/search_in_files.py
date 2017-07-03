@@ -35,6 +35,12 @@ def dialog_window():
                 results = find_file_by_keyword(keyword, list_of_files)
                 list_of_files = results[1]
                 print('\nСтрока "{}" найдена в {} следующих файлах:\n'.format(keyword, results[0]))
+                if results[0] == 1:
+                    print('Файл, содержащий искомую строку найден. \nВведите "e", чтобы начать новый поиск.\n')
+                    break
+                elif results[0] == 0:
+                    print('Файлы, содержащие строку не найдены. \nВведите "e", чтобы начать новый поиск.\n')
+                    break
                 if list_of_files:
                     print('\n'.join(list_of_files))
                 print('\nВы хотите продолжить поиск в этом списке?(y/n)')
