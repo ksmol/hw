@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import time
 
 def get_path_to_file(file_name):
     path_to_work_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), file_name)
@@ -35,7 +36,10 @@ def dialog_window():
         exit(1)
     else:
         output_folder = input('\nВведите имя папки, в которую будут сохранены изображения:\n')
+        clc = time.time()
         convert_all_images(source_folder, output_folder)
+        clc = time.time() - clc
+        print("\nВремя  выполнения программы составило {0:.2f} секунд".format(clc))
 
 if __name__ == '__main__':
     dialog_window()

@@ -1,8 +1,8 @@
 from multiprocessing import Pool
 
-def f(x):
-    return x*x
+def f(x,y):
+    return x*y
 
 if __name__ == '__main__':
     with Pool(4) as p:
-        print(p.map(f, [1, 2, 3]))
+        print(list(map(f, [1,2,3], [2,3,4])))
