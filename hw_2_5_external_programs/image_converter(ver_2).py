@@ -29,17 +29,11 @@ def convert_all_images():
     create_new_folder('Result')
     list_of_image_files = get_image_list('Source')
     if __name__ == '__main__':
-        with Pool(4) as p:
+        with Pool(len(list_of_image_files)) as p:
             p.map(launch_converter, list_of_image_files)
     print('\nИзображения успешно конвертированы и находятся по адресу: {}'.format(get_path_to_file('Result')))
 
-def dialog_window():
-    # source_folder = input('Введите имя папки, в которой вы хотите конвертировать изображения:\n')
-    # if os.path.isdir(get_path_to_file(source_folder)) == False:
-    #     print('\nУказанной папки нет в рабочей директории.')
-    #     exit(1)
-    # else:
-    #     output_folder = input('\nВведите имя папки, в которую будут сохранены изображения:\n')
+def timing():
         clc = time.time()
         convert_all_images()
         clc = time.time() - clc
@@ -47,4 +41,4 @@ def dialog_window():
 
 
 if __name__ == '__main__':
-    dialog_window()
+    timing()
