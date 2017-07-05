@@ -31,7 +31,7 @@ def convert_all_images(source_folder, output_folder):
 
 def dialog_window():
     source_folder = input('Введите имя папки, в которой вы хотите конвертировать изображения:\n')
-    if os.path.isdir(get_path_to_file(source_folder)) == False:
+    if not os.path.isdir(get_path_to_file(source_folder)):
         print('\nУказанной папки нет в рабочей директории.')
         exit(1)
     else:

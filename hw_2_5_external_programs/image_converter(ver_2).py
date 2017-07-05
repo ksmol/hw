@@ -15,7 +15,7 @@ def get_image_list(source_folder):
     return list_of_image_files
 
 def create_new_folder(file_name):
-    if os.path.isdir(get_path_to_file(file_name)) == False:
+    if not os.path.isdir(get_path_to_file(file_name)):
         os.mkdir(get_path_to_file(file_name))
         print('\nПапка с именем "{}" создана в директории "{}"'.format(file_name, get_path_to_file('')))
 
@@ -37,7 +37,7 @@ def timing():
         clc = time.time()
         convert_all_images()
         clc = time.time() - clc
-        print("\nВремя  выполнения программы составило {0:.2f} секунд".format(clc))
+        print("\nВремя выполнения программы составило {0:.2f} секунд".format(clc))
 
 
 if __name__ == '__main__':
