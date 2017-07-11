@@ -1,8 +1,10 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 
 def input_command():
     command = input().lower()
     return command
+
 
 def input_file_name():
     file_name = input().lower()
@@ -10,6 +12,7 @@ def input_file_name():
     file = file_name + file_extention
     print('Чтение файла {} ...'.format(file))
     return file
+
 
 def identify_file_encoding(file_name):
     import chardet
@@ -19,11 +22,13 @@ def identify_file_encoding(file_name):
         file_encoding = detected_encoding['encoding']
     return file_encoding
 
+
 def read_news_from_file(file_name):
     import json
     with open(file_name, 'r', encoding=identify_file_encoding(file_name)) as nf:
-       news_file = json.load(nf)
+        news_file = json.load(nf)
     return news_file
+
 
 def identify_ten_most_common_words(news_file):
     text_from_all_news = []
@@ -31,7 +36,7 @@ def identify_ten_most_common_words(news_file):
         words_at_description = news_file['rss']['channel']['items'][index]['description'].split()
         words_at_title = news_file['rss']['channel']['items'][index]['title'].split()
         text_from_all_news += words_at_title + words_at_description
-    text_from_all_news = [w.lower() for w in text_from_all_news if len(w)>=6]
+        text_from_all_news = [w.lower() for w in text_from_all_news if len(w) >= 6]
     dict_repetition_words = dict.fromkeys(text_from_all_news, 0)
     for word_key in text_from_all_news:
         if word_key in dict_repetition_words:
@@ -42,11 +47,13 @@ def identify_ten_most_common_words(news_file):
         list_of_ten_most_freq_words.append(sorted_list_repet_words[i])
     return list_of_ten_most_freq_words
 
+
 def output_results(dict_with_resuls):
     for file in dict_with_resuls:
         print('\nВ файле {} наиболее часто встречаются следующие слова:'.format(file))
         for ind, item in enumerate(dict_with_resuls[file]):
             print('{}. Cлово "{}" встречается {} раз'.format(ind+1, item[0], item[1]))
+
 
 def dialog_window():
     dict_with_results = {}
