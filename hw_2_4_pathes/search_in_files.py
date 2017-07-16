@@ -1,15 +1,18 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
+
 
 def return_path_to_file(file_name):
     path_to_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), file_name)
     return path_to_file
 
+
 def get_list_of_all_sql_files_at_dir():
     list_of_all_sql_files = [file for file in os.listdir(return_path_to_file('Migrations'))
                              if file.endswith('.sql')]
     return list_of_all_sql_files
+
 
 def find_file_by_keyword(keyword, list_of_all_sql_files):
     list_of_found_files = []
@@ -19,6 +22,7 @@ def find_file_by_keyword(keyword, list_of_all_sql_files):
             if keyword in data:
                 list_of_found_files.append(file_name)
     return len(list_of_found_files), list_of_found_files
+
 
 def dialog_window():
     while True:
@@ -46,7 +50,7 @@ def dialog_window():
                 print('\nВы хотите продолжить поиск в этом списке?(y/n)')
                 yn_command = input()
                 if yn_command == 'y':
-                     continue
+                    continue
                 else:
                     main_state = False
                     print('\nПосле ввода команды "e" вы сможете начать поиск по файлам заново.\n')
@@ -54,7 +58,6 @@ def dialog_window():
             exit()
         else:
             print('\nВы ввели неправильную команду.\n')
-
 
 if __name__ == '__main__':
     dialog_window()
