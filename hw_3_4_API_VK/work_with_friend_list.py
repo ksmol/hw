@@ -1,35 +1,30 @@
 # coding=utf-8
-import os
+
 from pprint import pprint
 import requests
 from urllib.parse import urlencode
-
-def return_path_to_file(file_name):
-    path_to_work_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), file_name)
-    return path_to_work_dir
-
-def create_new_folder(folder_name):
-    if not os.path.isdir(return_path_to_file(folder_name)):
-        os.mkdir(return_path_to_file(folder_name))
-        print('\nПапка с именем "{}" создана в директории "{}"'.format(folder_name, return_path_to_file('')))
+from collections import Counter
 
 AUTHORIZE_URL = 'https://oauth.vk.com/authorize'
 APP_ID = 6117192
 VERSION = '5.67'
 
 
-auth_data = {
-    'client_id': APP_ID,
-    'redirect_url': 'https://oauth.vk.com/blank.html',
-    'display': 'mobile',
-    'scope': 'friends',
-    'response_type': 'token',
-    'v': VERSION
-}
+def print_url_to_authorize():
+    auth_data = {
+        'client_id': APP_ID,
+        'redirect_url': 'https://oauth.vk.com/blank.html',
+        'display': 'mobile',
+        'scope': 'friends',
+        'response_type': 'token',
+        'v': VERSION
+    }
+    print('?'.join(
+        (AUTHORIZE_URL, urlencode(auth_data))
+    ))
 
-print('?'.join(
-    (AUTHORIZE_URL, urlencode(auth_data))
-))
+
+print_url_to_authorize()
 
 TOKEN = input('\nПожалуйста, выполните следующие действия:\n\
               1. Перейдите по ссылке;\n\
@@ -37,35 +32,76 @@ TOKEN = input('\nПожалуйста, выполните следующие д�
               3. Скопируйте Ваш ТОКЕН;\n\
               4. Введите Ваш ТОКЕН ниже:\n')
 
-params = {
-    'access_token': TOKEN,
-    'order': 'name',
-    'fields': 'nickname',
-    'v': VERSION
-}
 
-response = requests.get('https://api.vk.com/method/friends.get', params)
-response_list = response.json()
-friends_id_list = []
-for index, item in enumerate(response_list['response']['items']):
-    friends_id_list.append(item['id'])
-
-friends_of_friends = []
-for id in friends_id_list:
-    new_params = {
+def get_user_id():
+    params = {
         'access_token': TOKEN,
-        'user_id': id,
+        'v': VERSION
+    }
+    response = requests.get('https://api.vk.com/method/users.get', params)
+    return response.json()['response'][0]['id']
+
+CURRENT_USER_ID = get_user_id()
+
+
+def get_user_friend_list(user_id):
+    params = {
+        'access_token': TOKEN,
+        'user_id': user_id,
         'order': 'name',
         'fields': 'nickname',
         'v': VERSION
     }
-    new_response = requests.get('https://api.vk.com/method/friends.get', new_params)
-    friends_of_friends.append(new_response.json())
+    response = requests.get('https://api.vk.com/method/friends.get', params)
+    dict_of_friends = {}
+    for item in response.json()['response']['items']:
+        dict_of_friends[item['id']] = ' '.join([item['first_name'], item['last_name']])
+    return dict_of_friends
 
-pprint(friends_of_friends)
+
+DICT_OF_CURRENT_USER_FRIENDS = get_user_friend_list(CURRENT_USER_ID)
 
 
-# output_folder = input('\nВведите имя папки, в которую будут сохранены изображения:\n')
-# create_new_folder(output_folder)
-# with open(os.path.join(return_path_to_file(output_folder), __file__), 'w', encoding='utf-8') as f:
-#     f.write(friend_list)
+def get_friend_lists_of_user_friends():
+    dict_friends_of_user_friends = {}
+    for user_id in DICT_OF_CURRENT_USER_FRIENDS:
+        try:
+            dict_friends_of_user_friends[DICT_OF_CURRENT_USER_FRIENDS[user_id]] = (get_user_friend_list(user_id))
+        except KeyError:
+            print('Пользователь {} был заблокирован или удалил свою страницу.'
+                  .format(DICT_OF_CURRENT_USER_FRIENDS[user_id]))
+            continue
+    return dict_friends_of_user_friends
+
+
+def find_most_frequent_crossing_of_friends():
+    list_of_all_users = []
+    friends_of_user_friends = get_friend_lists_of_user_friends()
+    for current_user_friend in friends_of_user_friends:
+        for friend_of_friend in friends_of_user_friends[current_user_friend]:
+            list_of_all_users.append(friends_of_user_friends[current_user_friend][friend_of_friend])
+    number_of_intersections_of_friends = Counter(list_of_all_users)
+    return number_of_intersections_of_friends
+
+
+def dialog_window():
+    while True:
+        print('\nВведите команду из списка:\n\
+            uf - user friends (вывести список друзей пользователя программы)\n\
+            ff - friends of user friends (вывести список друзей друзей пользователя)\n\
+            cf - crossing of friends (вывести частоту пересечения общих друзей) \n\
+            q - quit (прекратить выполнение программы)')
+        command = input()
+        if command == 'uf':
+            pprint(DICT_OF_CURRENT_USER_FRIENDS)
+        elif command == 'ff':
+            pprint(get_friend_lists_of_user_friends())
+        elif command == 'cf':
+            pprint(find_most_frequent_crossing_of_friends())
+        elif command == 'q':
+            exit()
+        else:
+            print('\nВы ввели неправильную команду\n')
+
+if __name__ == '__main__':
+    dialog_window()

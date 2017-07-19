@@ -48,10 +48,10 @@ def identify_ten_most_common_words(news_file):
     return list_of_ten_most_freq_words
 
 
-def output_results(dict_with_resuls):
-    for file in dict_with_resuls:
+def output_results(dict_with_results):
+    for file in dict_with_results:
         print('\nВ файле {} наиболее часто встречаются следующие слова:'.format(file))
-        for ind, item in enumerate(dict_with_resuls[file]):
+        for ind, item in enumerate(dict_with_results[file]):
             print('{}. Cлово "{}" встречается {} раз'.format(ind+1, item[0], item[1]))
 
 
