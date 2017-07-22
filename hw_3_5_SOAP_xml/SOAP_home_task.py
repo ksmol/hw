@@ -7,6 +7,7 @@ import re
 
 URL_FOR_TEMP = 'http://www.webservicex.net/ConvertTemperature.asmx?WSDL'
 URL_FOR_CURRENCIES = 'http://fx.currencysystem.com/webservices/CurrencyServer4.asmx?WSDL'
+URL_FOR_LENGTH = 'http://www.webservicex.net/length.asmx?WSDL'
 
 
 def return_path_to_file(path):
@@ -43,10 +44,10 @@ def dialog_window():
             p - path (посчитать суммарное расстояние поездки)\n\
             b - budget (посчитать суммарный бюджет поездки)\n\
             q - quit (прекратить выполнение программы)')
-        command = input()
-
+        command = input().lower()
+        input_path_to_file = input('\nВведите путь к файлу с данными:\n')
         if command == 't':
-            list_of_temps = read_data_file('Homework/temps.txt')
+            list_of_temps = read_data_file(input_path_to_file)
             number_of_temps = len(list_of_temps)
             sum_temp = 0
             for value in list_of_temps:
@@ -62,31 +63,39 @@ def dialog_window():
 
                 client_for_temp = osa.client.Client(URL_FOR_TEMP)
                 response_for_temp = client_for_temp.service.ConvertTemp(Temperature=temp,
-                                                                              FromUnit=measure,
-                                                                              ToUnit='degreeCelsius'
-                                                                              )
+                                                                        FromUnit=measure,
+                                                                        ToUnit='degreeCelsius')
                 sum_temp += response_for_temp
                 avg_temp = round(sum_temp/number_of_temps)
-
             print('\nСредняя температура за 7 дней в градусах Цельсия равна {} C.\n'.format(avg_temp))
 
         elif command == 'p':
-            list_of_paths = read_data_file('Homework/travel.txt')
+            list_of_paths = read_data_file(input_path_to_file)
             sum_path = 0
             for value in list_of_paths:
                 distance = re.sub(',', '', value[0])
-                t = int(distance)
-                # sum_path += distance
-            print(t)
+                if value[1] == 'mi':
+                    from_measure = 'Miles'
+                client_for_length = osa.client.Client(URL_FOR_LENGTH)
+                response_for_length = client_for_length.service.ChangeLengthUnit(LengthValue=distance,
+                                                                                 fromLengthUnit=from_measure,
+                                                                                 toLengthUnit='Kilometers')
+
+                sum_path += response_for_length
+            print('Суммарное расстояние поездки составит {} км'.format(round(sum_path, 2)))
 
         elif command == 'b':
-            list_with_wasts = read_data_file('Homework/currencies.txt')
+            list_with_wasts = read_data_file(input_path_to_file)
             sum_of_wasts = 0
             for wast in list_with_wasts:
                 client_for_currencies = osa.client.Client(URL_FOR_CURRENCIES)
-                response_for_currencies = client_for_currencies.service.ConvertToNum(toCurrency='RUB', fromCurrency=wast[1], amount=wast[0], rounding=True)
+                response_for_currencies = client_for_currencies.service.ConvertToNum(toCurrency='RUB',
+                                                                                     fromCurrency=wast[1],
+                                                                                     amount=wast[0],
+                                                                                     rounding=True)
                 sum_of_wasts += response_for_currencies
-            print(round(sum_of_wasts))
+            print('Общий бюджет на перелеты равен {} RUR'.format(round(sum_of_wasts)))
+
         elif command == 'q':
             exit()
         else:
