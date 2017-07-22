@@ -41,6 +41,7 @@ def get_user_id():
     response = requests.get('https://api.vk.com/method/users.get', params)
     return response.json()['response'][0]['id']
 
+
 CURRENT_USER_ID = get_user_id()
 
 

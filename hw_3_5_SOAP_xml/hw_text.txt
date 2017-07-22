@@ -1,0 +1,20 @@
+Описание задания:
+Добрый день.
+
+Для решения задания необходимо воспользоваться библиотекой osa. Следующий код решает задачу рассматриваемую в лекции:
+
+import osa
+ 
+def convert_weight(value, from_unit, to_unit):
+    client = osa.Client('http://www.webservicex.net/convertMetricWeight.asmx?WSDL')
+    result = client.service.ChangeMetricWeightUnit(
+        MetricWeightValue=value,
+        fromMetricWeightUnit=from_unit,
+        toMetricWeightUnit=to_unit
+    )
+ 
+   return result
+Домашнее задание доступно вам по ссылке.
+
+Успехов!
+
