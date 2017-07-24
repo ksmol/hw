@@ -1,9 +1,10 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
 import subprocess
 import time
 from multiprocessing import Pool, Process
+
 
 def get_path_to_file(file_name):
     path_to_work_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), file_name)
@@ -14,16 +15,19 @@ def get_image_list(source_folder):
     list_of_image_files = [image for image in os.listdir(get_path_to_file(source_folder)) if '.jpg' in image]
     return list_of_image_files
 
+
 def create_new_folder(file_name):
     if not os.path.isdir(get_path_to_file(file_name)):
         os.mkdir(get_path_to_file(file_name))
         print('\nПапка с именем "{}" создана в директории "{}"'.format(file_name, get_path_to_file('')))
+
 
 def launch_converter(image_name):
     subprocess.check_call(get_path_to_file('convert ')
                           + os.path.join(get_path_to_file('Source'), image_name)
                           + ' -resize 200x '
                           + os.path.join(get_path_to_file('Result'), image_name))
+
 
 def convert_all_images():
     create_new_folder('Result')
@@ -32,6 +36,7 @@ def convert_all_images():
         with Pool(len(list_of_image_files)) as p:
             p.map(launch_converter, list_of_image_files)
     print('\nИзображения успешно конвертированы и находятся по адресу: {}'.format(get_path_to_file('Result')))
+
 
 def timing():
         clc = time.time()
