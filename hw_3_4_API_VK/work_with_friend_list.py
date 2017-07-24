@@ -99,6 +99,12 @@ def create_new_folder(file_name='Results'):
         print('\nПапка с именем "{}" создана в директории "{}"'.format(file_name, get_path_to_file('')))
 
 
+def recording_dict_to_file(input_dictionary):
+    with open('Results/crossing_friends.txt', 'w', encoding='utf-8') as f:
+        for key in input_dictionary:
+            f.write('{}: {}\n'.format(str(key), str(input_dictionary[key])))
+
+
 def dialog_window():
     while True:
         print('\nВведите команду из списка:\n\
@@ -110,9 +116,7 @@ def dialog_window():
         if command == 'uf':
             pprint(DICT_OF_CURRENT_USER_FRIENDS)
             create_new_folder()
-            with open('Results/user_friend_list.txt', 'w', encoding='utf-8') as f:
-                for friend in DICT_OF_CURRENT_USER_FRIENDS:
-                    f.write('{}: {}\n'.format(str(friend), str(DICT_OF_CURRENT_USER_FRIENDS[friend])))
+            recording_dict_to_file(DICT_OF_CURRENT_USER_FRIENDS)
         elif command == 'ff':
             create_new_folder()
             dict_of_friends_of_friends = get_friend_lists_of_user_friends().copy()
@@ -128,10 +132,7 @@ def dialog_window():
             create_new_folder()
             dict_of_most_frequent_crossing = find_most_frequent_crossing_of_friends().copy()
             pprint(dict_of_most_frequent_crossing)
-            with open('Results/crossing_friends.txt', 'w', encoding='utf-8') as f:
-                for friend in dict_of_most_frequent_crossing:
-                    f.write('{}: {}\n'.format(str(friend), str(dict_of_most_frequent_crossing[friend])))
-
+            recording_dict_to_file(dict_of_most_frequent_crossing)
         elif command == 'q':
             exit()
         else:
