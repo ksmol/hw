@@ -2,118 +2,112 @@
 
 
 class Animal:
-    type = 'Animal'
+    tail = True
+    general_diet = ['grass', 'water']
+    status = 'domesticated'
+    location = 'farm'
+    number_of_legs = 4
+    awakening_time = 4  # am
+    sleep_time = 22  # pm
 
-    def __init__(self):
-        self.tail = True
-        self.nose = True
-        self.general_diet = ['grass', 'water']
-        self.status = 'domesticated'
-        self.location = 'farm'
-        self.number_of_legs = 4
-        self.awakening_time = 4
-        self.sleep_time = 21
-        self.initial_location = (0, 0)
+    def __init__(self, animals_name=None, sex='Women'):
+        self.animals_name = animals_name
+        self.sex = sex
 
-    def wakeUp(self, current_time):
+    def wake_up(self, current_time):
         if 4 <= current_time <= 21:
             print('Не спит')
 
-    def goForAWalk(self, current_position):
+    def go_for_a_walk(self, current_position):
         if current_position == self.initial_location:
-            print('Не двигается')
+            print('В стойле')
         elif current_position != self.initial_location:
-            print('Гуляет')
+            print('Гуляет по ферме')
 
-    def fallAsleep(self, current_time):
+    def fall_sleep(self, current_time):
         if 0 <= current_time < 4 and current_time > 21:
-            print('Спит')
+            self.status
+        return self.status
 
 
 class Mammal(Animal):
-    type = 'Mammal'
+    mammals_diet = ['milk', 'wheat']
+    birth_method = 'Live birth'
+    age = 0
 
-    def __init__(self):
-        Animal.__init__(self)
-        self.mammals_diet = ['milk', 'wheat']
-        self.birth_method = 'Live birth'
+    def __init__(self, animals_name=None, age=None, sex='Women'):
+        super().__init__(animals_name, sex)
+        self.age = age
 
 
 class Cow(Mammal):
-    type = 'Cow'
-
-    def __init__(self):
-        Mammal.__init__(self)
-        self.initial_location = (2, 3)
-        self.benefit = ['Give milk', 'Give meat']
+    russian_designation = 'Корова'
+    initial_location = (2, 3)
+    benefit = ['Give milk', 'Give meat']
+    sound = 'Muuuu'
+    default_sex = 'Cow'
 
 
 class Goat(Mammal):
-    type = 'Goat'
-
-    def __init__(self):
-        Mammal.__init__(self)
-        self.initial_location = (5, 1)
-        self.benefit = ['Give milk', 'Give wool']
+    russian_designation = 'Козел'
+    initial_location = (5, 1)
+    benefit = ['Give milk', 'Give wool']
+    sound = 'Meeee'
 
 
 class Sheep(Mammal):
-    type = 'Sheep'
-
-    def __init__(self):
-        Mammal.__init__(self)
-        self.initial_location = (3, 1)
-        self.benefit = ['Give wool', 'Give meat']
+    russian_designation = 'Овца'
+    initial_location = (3, 1)
+    benefit = ['Give wool', 'Give meat']
+    sound = 'Beeee'
 
 
 class Pig(Mammal):
-    type = 'Pig'
-
-    def __init__(self):
-        Mammal.__init__(self)
-        self.initial_location = (6, 0)
-        self.benefit = 'Give meat'
+    russian_designation = 'Свинья'
+    initial_location = (6, 0)
+    benefit = 'Give meat'
+    sound = 'Oink-Oink'
 
 
 class DomesticBird(Animal):
-    type = 'DomesticBird'
-
-    def __init__(self):
-        Animal.__init__(self)
-        self.birds_diet = ['corn', 'wheat', 'seashells']
-        self.birth_method = 'Laying eggs'
-        self.number_of_legs = 2
-        self.benefit = ['Give meat', 'Give eggs']
+    birds_diet = ['corn', 'wheat', 'seashells']
+    birth_method = 'Laying eggs'
+    number_of_legs = 2
+    benefit = ['Give meat', 'Give eggs']
 
 
 class Duck(DomesticBird):
-    type = 'Duck'
-
-    def __init__(self):
-        DomesticBird.__init__(self)
-        self.initial_location = (4, 4)
+    russian_designation = 'Утка'
+    benefit = ['Give feathers', 'Give meat', 'Give eggs']
+    initial_location = (4, 4)
+    sound = 'Kra-Kra'
 
 
 class Chicken(DomesticBird):
-    type = 'Chicken'
+    russian_designation = 'Курица'
+    initial_location = (2, 4)
+    benefit = ['Give feathers', 'Give meat', 'Give eggs']
+    sound = 'Co-Co-Co'
 
-    def __init__(self):
-        DomesticBird.__init__(self)
-        self.initial_location = (2, 4)
+    def __init__(self, animals_name=None, sex='hen'):
+        super().__init__(animals_name)
+        self.sex = sex
 
 
 class Goose(DomesticBird):
-    type = 'Goose'
-
-    def __init__(self):
-        DomesticBird.__init__(self)
-        self.initial_location = (3, 4)
-        self.benefit = ['Give feathers', 'Give meat', 'Give eggs']
+    russian_designation = 'Гусь'
+    initial_location = (3, 4)
+    benefit = ['Give feathers', 'Give meat', 'Give eggs']
+    sound = 'Ga-Ga'
 
 
-goose = Goose()
-cow = Cow()
+goose = Goose('Ашот')
+cow = Cow('Буренка', 9)
+hen = Chicken('Ряба')
 print(goose.initial_location)
-print(goose.wakeUp(5))
-print(cow.goForAWalk((0, 0)))
+print(goose.wake_up(5))
+print(goose.go_for_a_walk((4, 6)))
 print(goose.benefit)
+print('Корове {} уже {} лет'.format(cow.animals_name, cow.age))
+print('Того странного гуся зовут {}'.format(goose.animals_name))
+print('Это {} {}'.format(hen.russian_designation, hen.animals_name))
