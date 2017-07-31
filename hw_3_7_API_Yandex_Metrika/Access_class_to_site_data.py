@@ -1,11 +1,11 @@
 # coding=utf-8
 
-from urllib.parse import urlencode, urljoin
 import requests
 from pprint import pprint
+from urllib.parse import urlencode, urljoin
 
 
-class YandexMetrikaGetToken:
+class YandexMetricsGetToken:
     AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize'
 
     def print_url_to_get_token(self, app_id='1d2e25a83d9d41dbbeb217c18d20d1ee'):
@@ -16,7 +16,7 @@ class YandexMetrikaGetToken:
         return '?'.join((self.AUTHORIZE_URL, urlencode(auth_data)))
 
 
-class YandexMetrikaKeyURLs:
+class YandexMetricsKeyURLs:
     MANAGEMENT_URL = 'https://api-metrika.yandex.ru/management/v1/'
     STAT_URL = 'https://api-metrika.yandex.ru/stat/v1/data'
 
@@ -31,16 +31,16 @@ class YandexMetrikaKeyURLs:
         return headers
 
 
-class YandexMetrikaCountersIds(YandexMetrikaKeyURLs):
+class YandexMetricsCountersIds(YandexMetricsKeyURLs):
     def get_ymetrika_counters(self):
         counters_url = urljoin(self.MANAGEMENT_URL, 'counters')
         response = requests.get(counters_url, headers=self.get_headers(), params={'pretty': 1})
         counters_dict = response.json()['counters']
-        counters_ids_list = [YandexMetrikaData(self.token, counter_data['id']) for counter_data in counters_dict]
+        counters_ids_list = [YandexMetricsData(self.token, counter_data['id']) for counter_data in counters_dict]
         return counters_ids_list
 
 
-class YandexMetrikaData(YandexMetrikaKeyURLs):
+class YandexMetricsData(YandexMetricsKeyURLs):
     visits = 'ym:s:visits'
     views = 'ym:s:pageviews'
     users = 'ym:s:users'
@@ -60,14 +60,14 @@ class YandexMetrikaData(YandexMetrikaKeyURLs):
 
 
 def get_metrics_data(token, metrics_attribute, period='Week'):
-    yametrika = YandexMetrikaCountersIds(token)
+    yametrika = YandexMetricsCountersIds(token)
     counters = yametrika.get_ymetrika_counters()
     for counter in counters:
         pprint(counter.get_metrics(metrics_attribute, period))
 
 
 def dialog_window():
-    print('\n{}'.format(YandexMetrikaGetToken().print_url_to_get_token()))
+    print('\n{}'.format(YandexMetricsGetToken().print_url_to_get_token()))
     token = input('\nПожалуйста, выполните следующие действия:\n'
                   '1. Перейдите по ссылке выше;\n'
                   '2. Разрешите доступ приложению;\n'
@@ -83,11 +83,11 @@ def dialog_window():
         command = input().lower()
 
         if command == 'vst':
-            get_metrics_data(token, YandexMetrikaData.visits)
+            get_metrics_data(token, YandexMetricsData.visits)
         elif command == 'vws':
-            get_metrics_data(token, YandexMetrikaData.views)
+            get_metrics_data(token, YandexMetricsData.views)
         elif command == 'usr':
-            get_metrics_data(token, YandexMetrikaData.users)
+            get_metrics_data(token, YandexMetricsData.users)
         elif command == 'q':
             exit()
         else:
