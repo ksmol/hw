@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+
 def read_cook_book_from_file():
     import  yaml
     from pprint import pprint
@@ -7,6 +8,7 @@ def read_cook_book_from_file():
      cook_book = yaml.load(cb)
     return cook_book
 read_cook_book_from_file()
+
 
 def get_shop_list_by_dishes(dishes, person_count):
     cook_book = read_cook_book_from_file()
@@ -25,6 +27,7 @@ def get_shop_list_by_dishes(dishes, person_count):
 def print_shop_list(shop_list):
     for shop_list_item in shop_list.values():
         print('{ingridient_name} {quontity} {measure}'.format(**shop_list_item))
+
 
 def create_shop_list():
     dishes = input('Введите блюдо в расчете на одного человека:').lower().split(', ')

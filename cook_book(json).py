@@ -1,7 +1,8 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 
 def read_cook_book_from_file():
-    import  json
+    import json
     with open('cook_book.json', 'r', encoding='utf-8') as cb:
      cook_book = json.load(cb)
     return cook_book
