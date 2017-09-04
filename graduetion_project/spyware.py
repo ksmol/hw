@@ -85,7 +85,11 @@ def record_data_to_json_file(data, path, file_name, encoding='utf=8'):
     with open(os.path.join(os.path.abspath(path), file_name),
               'w',
               encoding=encoding) as f:
-        json.dump(data, f)
+        json.dump(data,
+                  f,
+                  sort_keys=False,
+                  indent=4,
+                  ensure_ascii=False)
 
 
 def dialog_window():
