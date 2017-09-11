@@ -10,7 +10,7 @@ VERSION = '5.68'
 TOKEN = '5dfd6b0dee902310df772082421968f4c06443abecbc082a8440cb18910a56daca73ac8d04b25154a1128'
 
 
-def call_vk_api(method='users.get', **params):
+def call_vk_api(params, method='users.get'):
     response = requests.get('https://api.vk.com/method/{}'.format(method), params)
     time.sleep(0.5)
     print('.')
@@ -29,13 +29,44 @@ def call_vk_api(method='users.get', **params):
             exit(1)
 
 
+def users_get(api_function):
+    def give_arg_to_api(user_id):
+        method = 'users.get'
+        params = {'user_ids': user_id,
+                  'access_token': TOKEN,
+                  'v': VERSION}
+        return api_function(params, method)
+    return give_arg_to_api
+
+
+def friends_get(api_function):
+    def give_arg_to_api(user_id):
+        method = 'friends.get'
+        params = {'user_id': user_id,
+                  'access_token': TOKEN,
+                  'v': VERSION}
+        return api_function(params, method)
+    return give_arg_to_api
+
+
+def groups_get(api_function):
+    def give_arg_to_api(user_id, fields=None, extended=0, count=1000):
+        method = 'groups.get'
+        params = {'user_id': user_id,
+                  'fields': fields,
+                  'extended': extended,
+                  'count': count,
+                  'access_token': TOKEN,
+                  'v': VERSION}
+        return api_function(params, method)
+    return give_arg_to_api
+
+
 def get_all_friends_groups(user_friends_ids):
     all_friends_groups = []
     for friend_id in user_friends_ids:
-        users_groups = call_vk_api(method='groups.get',
-                                   user_id=friend_id,
-                                   access_token=TOKEN,
-                                   v=VERSION)
+        get_groups_info = groups_get(call_vk_api)
+        users_groups = get_groups_info(user_id=friend_id)
         all_friends_groups.extend(users_groups['items'])
     return all_friends_groups
 
@@ -87,21 +118,16 @@ def dialog_window():
             input_id = input('\nПожалуйста, введите имя пользователя,'
                              '\nчтобы выгрузить информацию о его уникальных группах\n')
 
-            current_user_id = call_vk_api(user_ids=input_id,
-                                          access_token=TOKEN,
-                                          v=VERSION)
-            user_friends_ids = call_vk_api(method='friends.get',
-                                           user_id=current_user_id[0]['id'],
-                                           access_token=TOKEN,
-                                           v=VERSION)
-            user_groups = call_vk_api(method='groups.get',
-                                      user_id=current_user_id[0]['id'],
-                                      access_token=TOKEN,
-                                      v=VERSION,
-                                      fields='members_count',
-                                      extended=1,
-                                      count=1000)
+            get_user_info = users_get(call_vk_api)
+            get_groups_info = groups_get(call_vk_api)
+            get_friends_info = friends_get(call_vk_api)
 
+            get_user_id = get_user_info(input_id)
+            current_user_id = get_user_id[0]['id']
+            user_friends_ids = get_friends_info(current_user_id)
+            user_groups = get_groups_info(current_user_id,
+                                          extended=1,
+                                          fields='members_count')
             friend_groups = get_all_friends_groups(user_friends_ids['items'])
             groups_info = get_unique_groups_info(user_groups, friend_groups)
 
